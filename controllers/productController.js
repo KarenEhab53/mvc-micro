@@ -1,17 +1,24 @@
 
 const Product = require("../models/Product");
-const User = require("../models/User")
+
 const bcrypt = require("bcrypt");
 
-addProduct=async(req,res)=>{
+const addProduct=async(req,res)=>{
   try {
 
-    const { user,product_name ,price,quantity,stock } =req.body;
-    if(user.role !== "admin")
-    return res.status(404).json({msg:"only admin can add"})
-    if (!product_name||!price||!quantity||!stock)
-    return res.status(400).json({ msg: "missing data" });
+    const { userId, name, price, quantity, stock } = req.body;
+     const user = await User.findById(userId);
+    if (userId.role !== "admin")
+      return res.status(404).json({ msg: "only admin can add" });
+    if (!name || !price || !quantity || !stock)
+      return res.status(400).json({ msg: "missing data" });
     
+    const product = await Product.create({ name, price, quantity, stock });
+    res.status(201).json({
+      success: true,
+      msg: "Product added successfully",
+      data: product,
+    });
   }
   catch(error){
     console.log(error)
@@ -70,9 +77,9 @@ const productGet = async (req, res) => {
 
 
 
-module.exports={
+module.exports = {
   productGet,
   productFilter,
-    userAdd
-}
+  addProduct,
+};
 
