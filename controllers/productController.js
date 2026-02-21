@@ -1,7 +1,6 @@
 
 const Product = require("../models/Product");
-
-const bcrypt = require("bcrypt");
+const User = require("../Models/User");
 
 const addProduct=async(req,res)=>{
   try {
