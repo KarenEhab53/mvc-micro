@@ -15,9 +15,12 @@ async function dbconnection() {
 }
 dbconnection();
 
-//routers
+
 const userRoutes = require("./Routes/userRoutes");
 app.use("/api", userRoutes);
+
+const productRoutes=require("./Routes/productRoutes")
+app.use("/api",productRoutes)
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Server running on port ${port}`));
